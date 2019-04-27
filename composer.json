@@ -1,0 +1,26 @@
+{
+    "name": "pedrommone/php-chat-api-client",
+    "description": "PHP client for chat-api.com",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pedro Maia",
+            "email": "pedrommone@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.0",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pedrommone\\ChatAPI\\": "src/"
+        }
+    },
+    "require-dev": {
+        "vlucas/phpdotenv": "^3.3"
+    }
+}
