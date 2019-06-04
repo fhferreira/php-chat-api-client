@@ -21,15 +21,14 @@ class Client
 
     public function __construct(string $instanceId, string $token)
     {
-        $handler = new HandlerStack();
-        $handler->setHandler(new CurlHandler());
+        $this->guzzle = $this->buildGuzzleClient($instanceId, $token);
+    }
 
-        $this->guzzle = new Guzzle([
-            'base_uri' => sprintf(self::URL, $instanceId),
-            'handler' =>  $handler,
-        ]);
+    public function setCredentials(string $instanceId, string $token): self
+    {
+        $this->guzzle = $this->buildGuzzleClient($instanceId, $token);
 
-        $handler->push((new InjectTokenAuthorization())($token));
+        return $this;
     }
 
     public function ban(): Ban
@@ -60,5 +59,20 @@ class Client
     public function queue(): Queue
     {
         return new Queue($this->guzzle);
+    }
+
+    private function buildGuzzleClient(string $instanceId, string $token): Guzzle
+    {
+        $handler = new HandlerStack();
+        $handler->setHandler(new CurlHandler());
+
+        $guzzle = new Guzzle([
+            'base_uri' => sprintf(self::URL, $instanceId),
+            'handler' =>  $handler,
+        ]);
+
+        $handler->push((new InjectTokenAuthorization())($token));
+
+        return $guzzle;
     }
 }
